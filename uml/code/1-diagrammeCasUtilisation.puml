@@ -1,4 +1,4 @@
-@startuml
+@startuml CasUtilisation
 left to right direction
 
 Actor ClientNonConnecté

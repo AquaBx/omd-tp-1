@@ -1,65 +1,41 @@
-@startuml CréationCompte
-
+@startuml AttributionSalle
 hide footbox
 skinparam sequenceMessageAlign center
 
-actor client
+actor MembreDuPersonnel
 participant système
-
 
 Activate système
 
-== Demande Création Compte ==
+== Connexion ==
 
-client -> système : demande création compte
-client <<-- système : accepte la demande
+MembreDuPersonnel -> système : demande connexion
+MembreDuPersonnel <<-- système : accepte la demande
+MembreDuPersonnel <- système : demande login et mot de passe
+MembreDuPersonnel -->> système : entre login et mot de passe
 
-== Demande Mail ==
-
-client <- système : demande adresse mail
-client -->> système : envoie adresse mail
-
-
-loop adresse mail existe déjà
-    client <- système : demande adresse mail
-
-    alt veut continuer 
-        client -->> système : envoie adresse mail
-    else
-        client --[#red]>> système : <font color=red>arrête la création du compte</font>
-    end 
+loop login ou mot de passe incorrect
+    MembreDuPersonnel <- système : redemande login et mot de passe
+    MembreDuPersonnel -->> système : rentre login et mot de passe
 end
 
-== Demande Mot de Passe ==
+== Election d'une séance ==
 
-client <- système : demande mot de passe
-client -->> système : envoie mot de passe
+MembreDuPersonnel -> système : demande à consulter l'ensemble des séances (film, horaire)
+MembreDuPersonnel <<-- système : accepte la demande
 
-loop mot de passe invalide
-    client <- système : demande mot de passe
-
-    alt veut continuer 
-        client -->> système : envoie mot de passe
-    else
-        client --[#red]>> système : <font color=red>arrête la création du compte</font>
-    end 
-end
-
-== Demande informations personnelles ==
-
-
-client <- système : demande date de naissance
-client -->> système : envoie date de naissance
-
-alt n'est pas majeur
-    client <[#red]- système :<font color=red>arrête la création du compte</font>
+alt Séance sans salle attribuée
+    MembreDuPersonnel -->> système : Sélectionne une séance sans salle attribuée
 end 
 
-client <- système : demande nom et prénom
-client -->> système : envoie nom et prénom
+== Election d'une salle ==
 
-client <[#green]- système : <font color=green>renvoie compte créé</font>
+MembreDuPersonnel <- système : Fournit les salles disponibles pour le créneau horaire spécifié
 
-Deactivate système
+loop Pas de salle disponible \n OU \n Pas de salle correcte (nb place, dolby...)
+    MembreDuPersonnel <- système : demande adresse mail
 
-@enduml
+    MembreDuPersonnel <<[#red]-- système : <font color=red>Arrête l'attribution d'un salle</font>
+end
+
+    MembreDuPersonnel <<[#green]-- système : <font color=green>Confirme l'attribution d'un salle</font>
