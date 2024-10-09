@@ -42,13 +42,11 @@ class ClientConnecté {
     + getMotDePasse() : String
     + getId() : int
     + getPoints() : int
-
     + setNom() : void
     + setPrénom() : void
     + setAdresseMail() : void
     + setId() : int
     + setPoints() : int
-
     + consulterFilms() : List<Film>
     + reserver() : void
     + seDéconnecter() : void
@@ -85,7 +83,6 @@ class Cinema {
     + getNumeroTelephone()
     + getHorairesOuverture()
     + getFilmsProjetes()
-
     + setFilmsProjetes()
 }
 
