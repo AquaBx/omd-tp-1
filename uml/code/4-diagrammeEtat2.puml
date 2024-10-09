@@ -1,0 +1,15 @@
+@startuml
+left to right direction
+
+[*] --> enAttente
+enAttente->[*] : éteindre
+
+enAttente---->identifiantCorrect:entrerIdentifiant [Identifiant correct]/
+enAttente-->enAttente:entrerIdentifiant [Identifiant incorrect]/
+
+identifiantCorrect->utilisateurConnecté:entrerMotDePasse [Mot de passe correct]/
+identifiantCorrect-->identifiantCorrect:entrerMotDePasse [Mot de passe incorrect]/
+
+utilisateurConnecté---->enAttente: seDéconnecter [] /
+
+@enduml
