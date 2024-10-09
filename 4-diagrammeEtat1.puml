@@ -1,0 +1,26 @@
+@startuml
+[*] --> ChoisirFilm
+ChoisirFilm --> [*]
+
+ChoisirFilm --> ChosirHoraire
+ChoisirFilm <-- ChosirHoraire
+
+ChosirHoraire --> ChoisirPlaces
+ChosirHoraire <-- ChoisirPlaces
+
+ChoisirPlaces --> ChoisirTarifs
+ChoisirPlaces <-- ChoisirTarifs
+
+ChoisirTarifs --> ProcéderPaiement
+
+ProcéderPaiement --> [*]
+ProcéderPaiement --> ProcéderPaiement
+
+ChoisirFilm : L'utilisateur choisi un\nfilm dans la liste des\nchoix possibles.
+ChosirHoraire : L'utilisateur choisi un horaire.\nSi c'est impossible retourne à\nl'étape d'avant.
+ChoisirPlaces : L'utilisateur choisi les places.\nSi c'est impossible retourne à\nl'étape d'avant.
+ChoisirTarifs : L'utilisateur choisi les tarifs pour\nchaque place. Si c'est impossible\nretourne àl'étape d'avant.
+ProcéderPaiement : L'utilisateur procède au paiement.\n Si le paiement est refusé, on recommence.
+
+
+@enduml

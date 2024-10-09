@@ -344,9 +344,6 @@ A partir des diagrammes de séquence, nous pouvons désormais mieux imaginer un 
 image("class.png")
 )
 
-
-
-
 #pagebreak()
 = Analyse comportementale
 
