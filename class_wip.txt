@@ -1,0 +1,166 @@
+@startuml
+class Acteur {
+    - nom : String
+    - prénom : String
+    + getNom() : String
+    + getPrénom() : String
+}
+
+class Réalisateur {
+    - nom : String
+    - prénom : String
+    + getNom() : String
+    + getPrénom() : String    
+}
+
+class Film {
+    - titre : String
+    - réalisateur : Réalisateur
+    - acteurs : List<Acteur>
+    - durée : Duration
+    - publicVisé : String
+    + getTitre() : String
+    + getRéalisateur() : Réalisateur
+    + getActeurs() : List<Acteur>
+    + getDurée() : Duration
+    + getPublicVisé() : String
+}
+
+class ClientConnecté {
+    - nom : String
+    - prénom : String
+    - adresseMail : String
+    - dateDeNaissance : Date
+    - motDePasse : String
+    - id : String
+    - points : int
+
+    + getNom() : String
+    + getPrénom() : String
+    + getAdresseMail() : String
+    + getDateDeNaissance() : Date
+    + getMotDePasse() : String
+    + getId() : int
+    + getPoints() : int
+
+    + setNom() : void
+    + setPrénom() : void
+    + setAdresseMail() : void
+    + setId() : int
+    + setPoints() : int
+
+    + consulterFilms() : List<Film>
+    + reserver() : void
+    + seDéconnecter() : void
+}
+
+class ClientNonConnecté {
+    + seConnecter() : void
+    + créerUnCompte() : void
+}
+
+class Employé {
+    + consulterRéservation(r : Réservation) : void
+}
+
+class MembreDuPersonnel {
+    + créerSéance(f : Film, s : Salle, horaireDébut : Date, horaireFin : Date) : void
+}
+
+class Salle {
+    - type : String
+    - nbPlaces : int
+    + getType() : String
+    + getNbPlaces() : int
+}
+
+class Cinema {
+    - nom : String
+    - adresse : String
+    - numeroTelephone : String
+    - horairesOuverture : String
+    - filmsProjetes : list<Film>
+    + getNom()
+    + getAdresse()
+    + getNumeroTelephone()
+    + getHorairesOuverture()
+    + getFilmsProjetes()
+
+    + setFilmsProjetes()
+}
+
+abstract class Type {
+    - nom : String
+    - prix : double
+    + getNom() : String
+    + getType() : String
+}
+
+Type <|-- Dolby
+Type <|-- 3D
+Type <|-- Standard
+
+Salle -- Type
+
+class Réservation {
+    - places : List<Place>
+
+    + getPlaces() : List<Place>
+    + getNbPlaces() : int
+}
+
+abstract class Place {
+    - tarif : Float
+    + getTarif()
+}
+
+class PlaceEtudiant {
+}
+
+class PlaceChomeur {
+}
+
+class PlaceSenior {
+}
+
+class PlaceMobiliteReduite {
+}
+
+Place <|-- PlaceEtudiant 
+Place <|-- PlaceChomeur 
+Place <|-- PlaceSenior 
+Place <|-- PlaceMobiliteReduite 
+
+class Séance {
+    - horaireDébut : Date
+    - horaireFin : Date
+    - nbPlacesRéservées : int
+
+    + getHoraireDébut() : Date
+    + getHoraireFin() : Date
+    + getNbPlacesRéservées() : int
+}
+
+Film "1" --o "0..*" Séance
+Acteur "1..*" -o "1..*" Film
+Réalisateur "1..*" --o "1" Film
+
+Cinema "1" *-- "1..*" Salle
+Cinema "1" *-- "1..*" Employé
+Cinema "1" *-- "1..*" Film
+MembreDuPersonnel  "1..*" --* "1" Cinema
+
+Séance "0..*" o-- "1" Salle
+
+MembreDuPersonnel -- Séance
+Employé ---- Réservation 
+
+Séance "0..*" -- "0..*" ClientConnecté
+(Séance, ClientConnecté) .. Réservation
+
+ClientConnecté - Film
+
+ClientNonConnecté - ClientConnecté
+
+Réservation "1" *-- "1..*" Place
+@enduml
