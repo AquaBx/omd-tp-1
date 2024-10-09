@@ -1,4 +1,4 @@
-@startuml
+@startuml Classes
 class Acteur {
 }
 
@@ -33,18 +33,15 @@ class ClientConnecté {
     - motDePasse : String
     - id : String
     - points : int
-
     + getAdresseMail() : String
     + getDateDeNaissance() : Date
     + getMotDePasse() : String
     + getId() : int
     + getPoints() : int
-
+    + diminuerPoints(int points) : void
+    + augmenterPoints(int points) : void
     + setAdresseMail(String email) : void
-    + setPoints(int points) : void
     + setMotDePasse(String password) : void
-
-
     + consulterFilms() : List<Film>
     + reserver() : void
     + seDéconnecter() : void

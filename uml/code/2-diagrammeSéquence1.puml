@@ -1,68 +1,65 @@
-@startuml RéservationSéance
+@startuml CréationCompte
 
 hide footbox
 skinparam sequenceMessageAlign center
 
-actor ClientConnecté
-participant Système
+actor client
+participant système
 
 
-Activate Système
+Activate système
 
-== Connexion au système ==
+== Demande Création Compte ==
 
-ClientConnecté -> Système : demande connexion au système
-ClientConnecté <<-- Système : accepte la demande
+client -> système : demande création compte
+client <<-- système : accepte la demande
 
-== Demande Film ==
+== Demande Mail ==
 
-ClientConnecté <- Système : demande film
+client <- système : demande adresse mail
+client -->> système : envoie adresse mail
 
-alt Film trouvé 
-    ClientConnecté -->> Système : envoie film
-else 
-    ClientConnecté --[#red]>> Système : <font color="#ff0000">Quitte l'application</font>
+
+loop adresse mail existe déjà
+    client <- système : demande adresse mail
+
+    alt veut continuer 
+        client -->> système : envoie adresse mail
+    else
+        client --[#red]>> système : <font color=red>arrête la création du compte</font>
+    end 
 end
 
-== Demande Horaire ==
+== Demande Mot de Passe ==
 
-ClientConnecté <- Système : demande horaire
+client <- système : demande mot de passe
+client -->> système : envoie mot de passe
 
-alt Horaire conforme
-    ClientConnecté -->> Système : envoie horaire
-else 
-    ClientConnecté --[#f8d419]>> Système : <font color="#f8d419">retourne étape film</font>
+loop mot de passe invalide
+    client <- système : demande mot de passe
+
+    alt veut continuer 
+        client -->> système : envoie mot de passe
+    else
+        client --[#red]>> système : <font color=red>arrête la création du compte</font>
+    end 
 end
 
-== Demande Horaire ==
+== Demande informations personnelles ==
 
-ClientConnecté <- Système : demande les places
 
-alt Places conformes 
-    ClientConnecté -->> Système : envoie place
-else 
-    ClientConnecté --[#f8d419]>> Système : <font color="#f8d419">retourne étape horaire</font>
-end
+client <- système : demande date de naissance
+client -->> système : envoie date de naissance
 
-== Demande Tarifs ==
+alt n'est pas majeur
+    client <[#red]- système :<font color=red>arrête la création du compte</font>
+end 
 
-ClientConnecté <- Système : demande les tarifs sur chaque place
-ClientConnecté -->> Système : renvoie les tarifs
+client <- système : demande nom et prénom
+client -->> système : envoie nom et prénom
 
-== Demande Paiement ==
+client <[#green]- système : <font color=green>renvoie compte créé</font>
 
-ClientConnecté <- Système : demande infomations de carte bancaire
-ClientConnecté -->> Système : renvoie les informations de carte bancaire
-"Système" -> Banque : envoie les informations de carte bancaire
-
-alt si paiement validé
-    "Système" <<[#green]-- Banque : <font color="green">ok</font>
-    ClientConnecté <<[#green]-- Système : <font color="green">envoie confirmation paiement et ticket par mail</font>
-else 
-    "Système" <<[#red]-- Banque : <font color="#ff0000">pas ok</font>
-    ClientConnecté <<[#f8d419]-- "Système" : <font color="#f8d419">retourne demande paiement</font>
-end
-
-Deactivate Système
+Deactivate système
 
 @enduml
