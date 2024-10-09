@@ -1,0 +1,68 @@
+@startuml RéservationSéance
+
+hide footbox
+skinparam sequenceMessageAlign center
+
+actor ClientConnecté
+participant Système
+
+
+Activate Système
+
+== Connexion au système ==
+
+ClientConnecté -> Système : demande connexion au système
+ClientConnecté <<-- Système : accepte la demande
+
+== Demande Film ==
+
+ClientConnecté <- Système : demande film
+
+alt Film trouvé 
+    ClientConnecté -->> Système : envoie film
+else 
+    ClientConnecté --[#red]>> Système : <font color="#ff0000">Quitte l'application</font>
+end
+
+== Demande Horaire ==
+
+ClientConnecté <- Système : demande horaire
+
+alt Horaire conforme
+    ClientConnecté -->> Système : envoie horaire
+else 
+    ClientConnecté --[#f8d419]>> Système : <font color="#f8d419">retourne étape film</font>
+end
+
+== Demande Horaire ==
+
+ClientConnecté <- Système : demande les places
+
+alt Places conformes 
+    ClientConnecté -->> Système : envoie place
+else 
+    ClientConnecté --[#f8d419]>> Système : <font color="#f8d419">retourne étape horaire</font>
+end
+
+== Demande Tarifs ==
+
+ClientConnecté <- Système : demande les tarifs sur chaque place
+ClientConnecté -->> Système : renvoie les tarifs
+
+== Demande Paiement ==
+
+ClientConnecté <- Système : demande infomations de carte bancaire
+ClientConnecté -->> Système : renvoie les informations de carte bancaire
+"Système" -> Banque : envoie les informations de carte bancaire
+
+alt si paiement validé
+    "Système" <<[#green]-- Banque : <font color="green">ok</font>
+    ClientConnecté <<[#green]-- Système : <font color="green">envoie confirmation paiement et ticket par mail</font>
+else 
+    "Système" <<[#red]-- Banque : <font color="#ff0000">pas ok</font>
+    ClientConnecté <<[#f8d419]-- "Système" : <font color="#f8d419">retourne demande paiement</font>
+end
+
+Deactivate Système
+
+@enduml

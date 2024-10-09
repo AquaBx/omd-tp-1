@@ -1,0 +1,25 @@
+@startuml
+left to right direction
+
+Actor ClientNonConnecté
+Actor ClientConnecté
+
+Actor Employe
+Actor MembreDuPersonnel
+
+package SystemeDeReservation {
+
+ClientConnecté -> (Réserver un film)
+ClientNonConnecté -> (Se connecter à son compte)
+ClientConnecté --> (Modifier ses informations personnelles)
+ClientConnecté --> (Consulter son compte)
+
+(Modifier ses informations personnelles) <. (Consulter son compte) : extends
+
+ClientNonConnecté --> (Créer un compte)
+
+(Consulter les infomations de réservation) <--- Employe
+(Attribuer une salle à un film et un horaire) <--- MembreDuPersonnel
+
+}
+@enduml
