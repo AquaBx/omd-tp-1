@@ -87,10 +87,6 @@ class Cinema {
     - employés : list<Employé>
     - personnel : list<MembreDuPersonnel>
 
-    + getNom()
-    + getAdresse()
-    + getNumeroTelephone()
-    + getHorairesOuverture()
     + getFilmsProjetes()
     + setFilmsProjetes()
 }
