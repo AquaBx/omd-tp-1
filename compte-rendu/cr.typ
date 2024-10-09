@@ -344,11 +344,22 @@ A partir des diagrammes de séquence, nous pouvons désormais mieux imaginer un 
 image("../uml/img/3-diagrammeClasses.png")
 )
 
+dire nos choix (TODO)
+
 #pagebreak()
 = Analyse comportementale
 
-diagrammes d'état : en faire au moins 2
+- Etat de la réservation d'une séance (à rédiger)
 
+#figure(
+image("../uml/img/4-diagrammeEtat1.png")
+)
+
+- Etat de la connexion/déconnexion d'un client (à rédiger)
+
+#figure(
+image("../uml/img/4-diagrammeEtat2.png")
+)
 = Conclusion
 max 10 lignes
 
