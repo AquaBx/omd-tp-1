@@ -42,19 +42,23 @@ class ClientConnecté {
     + getMotDePasse() : String
     + getId() : int
     + getPoints() : int
-    + setNom() : void
-    + setPrénom() : void
-    + setAdresseMail() : void
-    + setId() : int
-    + setPoints() : int
+
+    + setNom(String nom) : void
+    + setPrénom(String prénom) : void
+    + setAdresseMail(String email) : void
+    + setPoints(int points) : void
+    + setMotDePasse(String password) : void
+
+
     + consulterFilms() : List<Film>
     + reserver() : void
     + seDéconnecter() : void
 }
 
 class ClientNonConnecté {
-    + seConnecter() : void
-    + créerUnCompte() : void
+    + seConnecter(int id, String password) : void
+    + seConnecter(String email, String password) : void
+    + créerUnCompte(String nom, String prénom, String mail, Date dateDeNaissance, String motDePasse) : void
 }
 
 class Employé {
@@ -65,9 +69,11 @@ class MembreDuPersonnel {
     + créerSéance(f : Film, s : Salle, horaireDébut : Date, horaireFin : Date) : void
 }
 
-class Salle {
-    - type : String
+abstract class Salle {
+    - nom : String
+    - prixPlace : double
     - nbPlaces : int
+    + getNom() : String
     + getType() : String
     + getNbPlaces() : int
 }
@@ -78,6 +84,10 @@ class Cinema {
     - numeroTelephone : String
     - horairesOuverture : String
     - filmsProjetes : list<Film>
+
+    - employés : list<Employé>
+    - personnel : list<MembreDuPersonnel>
+
     + getNom()
     + getAdresse()
     + getNumeroTelephone()
@@ -86,47 +96,34 @@ class Cinema {
     + setFilmsProjetes()
 }
 
-abstract class Type {
-    - nom : String
-    - prix : double
-    + getNom() : String
-    + getType() : String
-}
-
-Type <|-- Dolby
-Type <|-- 3D
-Type <|-- Standard
-
-Salle -- Type
+Salle <|-- Dolby
+Salle <|-- 3D
+Salle <|- Standard
 
 class Réservation {
     - places : List<Place>
+    - séance : Séance
+    - client : Client
 
     + getPlaces() : List<Place>
     + getNbPlaces() : int
+    + getSéance() : Séance
+    + getClient() : Client
 }
 
-abstract class Place {
-    - tarif : Float
-    + getTarif()
+class Place {
+    - reduction : Float
+    + getReduction()
 }
+class PlaceEtudiant {}
+class PlaceMobiliteReduite {}
+class PlaceChomeur {}
+class PlaceSenior {}
 
-class PlaceEtudiant {
-}
-
-class PlaceChomeur {
-}
-
-class PlaceSenior {
-}
-
-class PlaceMobiliteReduite {
-}
-
-Place <|-- PlaceEtudiant 
-Place <|-- PlaceChomeur 
-Place <|-- PlaceSenior 
-Place <|-- PlaceMobiliteReduite 
+Place <|- PlaceEtudiant
+Place <|-- PlaceChomeur
+Place <|-- PlaceSenior
+PlaceMobiliteReduite -|> Place
 
 class Séance {
     - horaireDébut : Date
@@ -138,22 +135,22 @@ class Séance {
     + getNbPlacesRéservées() : int
 }
 
-Film "1" --o "0..*" Séance
-Acteur "1..*" -o "1..*" Film
-Réalisateur "1..*" --o "1" Film
+Film "1" -----o "0..*" Séance
+Film "1..*" o- "1..*" Acteur
+Réalisateur "1..*" -o "1" Film
 
+Cinema "1" *--- "1..*" Employé
 Cinema "1" *-- "1..*" Salle
-Cinema "1" *-- "1..*" Employé
-Cinema "1" *-- "1..*" Film
-MembreDuPersonnel  "1..*" --* "1" Cinema
+Cinema "1" *------- "1..*" Film
+Cinema  "1" *-- "1..*" MembreDuPersonnel
 
-Séance "0..*" o-- "1" Salle
+Séance "0..*" o- "1" Salle
 
 MembreDuPersonnel -- Séance
-Employé ---- Réservation 
+Employé - Réservation
 
 Séance "0..*" -- "0..*" ClientConnecté
-(Séance, ClientConnecté) .. Réservation
+Réservation .. (ClientConnecté,Séance)
 
 ClientConnecté - Film
 

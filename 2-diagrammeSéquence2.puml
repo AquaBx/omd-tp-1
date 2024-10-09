@@ -1,0 +1,65 @@
+@startuml CréationCompte
+
+hide footbox
+skinparam sequenceMessageAlign center
+
+actor client
+participant système
+
+
+Activate système
+
+== Demande Création Compte ==
+
+client -> système : demande création compte
+client <<-- système : accepte la demande
+
+== Demande Mail ==
+
+client <- système : demande adresse mail
+client -->> système : envoie adresse mail
+
+
+loop adresse mail existe déjà
+    client <- système : demande adresse mail
+
+    alt veut continuer 
+        client -->> système : envoie adresse mail
+    else
+        client --[#red]>> système : <font color=red>arrête la création du compte</font>
+    end 
+end
+
+== Demande Mot de Passe ==
+
+client <- système : demande mot de passe
+client -->> système : envoie mot de passe
+
+loop mot de passe invalide
+    client <- système : demande mot de passe
+
+    alt veut continuer 
+        client -->> système : envoie mot de passe
+    else
+        client --[#red]>> système : <font color=red>arrête la création du compte</font>
+    end 
+end
+
+== Demande informations personnelles ==
+
+
+client <- système : demande date de naissance
+client -->> système : envoie date de naissance
+
+alt n'est pas majeur
+    client <[#red]- système :<font color=red>arrête la création du compte</font>
+end 
+
+client <- système : demande nom et prénom
+client -->> système : envoie nom et prénom
+
+client <[#green]- système : <font color=green>renvoie compte créé</font>
+
+Deactivate système
+
+@enduml
