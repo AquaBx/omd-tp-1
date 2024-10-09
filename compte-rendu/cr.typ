@@ -149,7 +149,7 @@ Les acteurs seraient :
 Voici le diagramme de cas d'utilisation que nous en avons déduit :
 
 #figure(
-  image("usecase.png", width:12cm)
+  image("../uml/img/1-diagrammeCasUtilisation.png", width:12cm)
 )
 
 == Description des cas d'utilisation
@@ -284,7 +284,7 @@ Le cas d'utilisation "Créer un compte" a été décrit ainsi dans la partie pr�
 Un diagramme de séquence correspondant pourrait être illustré comme suit :
   
 #figure(
-  image("seq1.png", width: 3.22cm)
+  image("../uml/img/2-diagrammeSéquence1.png", width: 3.22cm)
 )
 
 === Cas d'utilisation "Attribuer une salle à un film et un horaire"
@@ -307,7 +307,7 @@ Le cas d'utilisation "Attribuer une salle à un film et un horaire" a été déc
 Un diagramme de séquence correspondant pourrait être illustré comme suit :
   
 #figure(
-  image("seq2.png", width: 10cm)
+  image("../uml/img/2-diagrammeSéquence2.png", width: 10cm)
 )
 
 #pagebreak()
@@ -333,7 +333,7 @@ Un diagramme de séquence correspondant pourrait être illustré comme suit :
 
   
 #figure(
-  image("seq3.png", width:7.21cm)
+  image("../uml/img/2-diagrammeSéquence3.png", width:7.21cm)
 )
 
 == Diagrammes de classe
@@ -341,7 +341,7 @@ Un diagramme de séquence correspondant pourrait être illustré comme suit :
 A partir des diagrammes de séquence, nous pouvons désormais mieux imaginer un diagramme de classes possible pour ce problème.
 
 #figure(
-image("class.png")
+image("../uml/img/3-diagrammeClasses.png")
 )
 
 #pagebreak()
