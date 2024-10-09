@@ -340,7 +340,10 @@ Un diagramme de séquence correspondant pourrait être illustré comme suit :
 
 A partir des diagrammes de séquence, nous pouvons désormais mieux imaginer un diagramme de classes possible pour ce problème.
 
-  
+#figure(
+image("class.png")
+)
+
 
 
 
