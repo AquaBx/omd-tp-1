@@ -1,16 +1,17 @@
 @startuml
 class Acteur {
+}
+
+class Réalisateur {
+}
+
+abstract class Personne {
     - nom : String
     - prénom : String
     + getNom() : String
     + getPrénom() : String
-}
-
-class Réalisateur {
-    - nom : String
-    - prénom : String
-    + getNom() : String
-    + getPrénom() : String    
+    + setNom(String nom) : void
+    + setPrénom(String prénom) : void
 }
 
 class Film {
@@ -27,24 +28,18 @@ class Film {
 }
 
 class ClientConnecté {
-    - nom : String
-    - prénom : String
     - adresseMail : String
     - dateDeNaissance : Date
     - motDePasse : String
     - id : String
     - points : int
 
-    + getNom() : String
-    + getPrénom() : String
     + getAdresseMail() : String
     + getDateDeNaissance() : Date
     + getMotDePasse() : String
     + getId() : int
     + getPoints() : int
 
-    + setNom(String nom) : void
-    + setPrénom(String prénom) : void
     + setAdresseMail(String email) : void
     + setPoints(int points) : void
     + setMotDePasse(String password) : void
@@ -60,6 +55,10 @@ class ClientNonConnecté {
     + seConnecter(String email, String password) : void
     + créerUnCompte(String nom, String prénom, String mail, Date dateDeNaissance, String motDePasse) : void
 }
+
+Personne <|-- Réalisateur
+Personne <|-- Acteur
+ClientConnecté --|> Personne
 
 class Employé {
     + consulterRéservation(r : Réservation) : void
@@ -120,9 +119,9 @@ class PlaceMobiliteReduite {}
 class PlaceChomeur {}
 class PlaceSenior {}
 
-Place <|- PlaceEtudiant
+Place <|-- PlaceEtudiant
 Place <|-- PlaceChomeur
-Place <|-- PlaceSenior
+Place <|- PlaceSenior
 PlaceMobiliteReduite -|> Place
 
 class Séance {
@@ -135,13 +134,14 @@ class Séance {
     + getNbPlacesRéservées() : int
 }
 
-Film "1" -----o "0..*" Séance
-Film "1..*" o- "1..*" Acteur
-Réalisateur "1..*" -o "1" Film
+Film "1" -o "0..*" Séance
+
+Acteur "1..*" --o "1..*" Film
+Réalisateur "1..*" --o "1" Film
 
 Cinema "1" *--- "1..*" Employé
 Cinema "1" *-- "1..*" Salle
-Cinema "1" *------- "1..*" Film
+Cinema "1" *-- "1..*" Film
 Cinema  "1" *-- "1..*" MembreDuPersonnel
 
 Séance "0..*" o- "1" Salle
@@ -152,9 +152,9 @@ Employé - Réservation
 Séance "0..*" -- "0..*" ClientConnecté
 Réservation .. (ClientConnecté,Séance)
 
-ClientConnecté - Film
+ClientConnecté -- Film
 
-ClientNonConnecté - ClientConnecté
+ClientConnecté - ClientNonConnecté
 
 Réservation "1" *-- "1..*" Place
 @enduml
