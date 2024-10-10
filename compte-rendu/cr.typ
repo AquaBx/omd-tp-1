@@ -120,7 +120,14 @@
 
 #pagebreak()
 = Introduction
-max 5 lignes
+Ce travail a pour objectif de concevoir un système de réservation pour un cinéma, en s'appuyant sur une approche orientée objet.
+
+Pour ce faire, nous allons formaliser l'ensemble des fonctionnalités et des interactions décrites dans le cahier des charges. Elle couvre dans l'ordre :
+- l'analyse fonctionnelle (diagramme de cas d'utilisation et description de chacun d'entre eux)
+- l'analyse structurelle (diagrammes de séquence puis diagramme de classe)
+- l'analyse comportementale (diagrammes d'état)
+
+Toutes ces tâches permettront de modéliser l'ensemble des processus liés aux actions qui seront disponibles sur la plateforme et de s'assurer de créer une solution informatique complète.
 
 #pagebreak()
 = Analyse fonctionnelle
@@ -344,7 +351,50 @@ A partir des diagrammes de séquence, nous pouvons désormais mieux imaginer un 
 image("../uml/img/3-diagrammeClasses.png")
 )
 
-dire nos choix (TODO)
+Voici comment nous justifions notre choix de diagramme de classes.
+
+=== Classe abstraite Personne / Classes concrètes Acteur et Réalisateur
+- Nous avons fait une classe abstraite Personne pour définir un modèle commun (nom et prénom) pour les classes `Acteur` et `Réalisateur`.
+- Les classes concrètes Acteur et Réalisateur représentent les personnes impliquées dans la création du film.
+- Nous avons décidé de séparer ces entités de film et aussi de séparer les acteurs et les réalisateurs, car ils ont des rôles différents dans un film et les cardinalités sont différentes (un film contient plusieurs acteurs mais un seul réalisateur). De plus, cela rend les entités Acteur et Réalisateur moins redondantes car un acteur peut jouer dans plusieurs films et un réalisateur peut également réaliser plusieurs films.
+
+=== Classe Film
+- Cette classe contient des informations sur le film, comme le titre, le réalisateur, les acteurs, la durée et le public visé.
+- Nous sommes restés sur l'idée de base où chaque film a un seul réalisateur mais plusieurs acteurs, d'où la présence d'une liste pour les acteurs mais pas pour les réalisateurs.
+
+=== Séance
+- Cette classe contient des informations sur le moment de la séance (film et horaire) et le nombre de places réservées. Elle permet de gérer les horaires et la disponibilité des salles.
+- Nous avons pensé à ces cardinalités entre Séance et Film car un film peut être projeté plusieurs fois dans différentes séances, mais chaque séance est liée à un seul film.
+
+=== Classe ClientConnecté
+- Cette classe représente les clients ayant un compte et étant connecté à celui-ci. Elle inclut donc les attributs spécifiés dans le compte (adresse mail, date de naissance, mot de passe, nombre de points). Nous avons des getters et des setters afin de pouvoir récupérer les informations (par exemple pour l'affichage) et des setters pour les modifier (modification des informations personnelles, changement du nombre de points). Il y a aussi des méthodes pour réserver une séance et se déconnecter.
+- Nous avons pensé à ces cardinalités entre ClientConnecté et Séance car plusieurs clients connectés peuvent réserver une séance, et un client peut réserver plusieurs séances. 
+
+=== ClientNonConnecté
+- Cette classe gère les actions que peut effectuer un client non connecté, comme la connexion et la création d'un compte. Le client peut se connecter soit via son identifiant et son mot de passe, soit via son email et son mot de passe. S'il n'a pas de compte, il peut s'en créer un via la méthode créerUnCompte, prenant en paramètres tout les champs nécessaires à la création d'un compte.
+
+=== Classes Employé et MembreDuPersonnel
+- La classe Employé reflète le rôle de l'employé : Il a l'autorisation consulter les détails sur une réservation via la méthode consulterReservation. En effet, c'est l'employé qui en a l'autorisation.
+- La classe MembreDuPersonnel reflète le rôle du MembreDuPersonnel : Il a l'autorisation créer des séances via la méthode créerSéance. En effet, c'est le membre du personnel qui en a l'autorisation.
+- Nous avons séparé ces deux classes pour distinguer les rôles opérationnels liés à la gestion des séances qui diffèrent selon les deux rôles.
+
+=== Classe abstraite Salle / Classes concrètes Dolby, 3D et Standard
+- La classe abstraite Salle permet de représenter les salles avec des caractéristiques communes (nom, prix de base de la place, nombre de places). Elle permet de généraliser les différentes types de salles (Dolby, 3D, Standard).
+- Les classes concrètes Dolby, 3D et Standard représentent les différents types de salles existantes dans le cinéma.
+- Nous avons décidé de séparer les types de salles (Dolby, 3D et Standard), car le type de salle peut influencer le prix de la place et le nombre de places. De plus, ce choix permet d'ajouter d'autres types de salles facilement si l'occasion se présente.
+- Nous avons pensé à ces cardinalités entre Séance et Salle car une séance a lieu dans une seule salle, mais une salle peut accueillir plusieurs séances.
+
+=== Classe Cinema
+- Cette classe contient des informations générales sur le cinéma et les films projetés, ainsi que les employés et membres du personnel.
+- Nous avons pensé à ces cardinalités pour Cinema car un cinéma emploie plusieurs personnes (employés et membres du personnel) et dispose de plusieurs salles. De même, plusieurs films peuvent être projetés dans le cinéma.
+
+=== Classe Place / Classes PlaceMobiliteReduite, PlaceChomeur, PlaceEtudiant, PlaceSenior
+- Cette classe représente une place réservée avec une éventuelle réduction.
+- Nous avons fait le choix d'une classe concrète Place, où d'autres types de places (mobilité réduite, chômeur, étudiant, sénior) sont reliés, pour permettre de soit choisir une place "normale", soit choisir une place spéciale offrant une réduction particulière grâce à l'attribution par héritage.  De plus, ce choix permet d'ajouter d'autres types de places facilement si l'occasion se présente.
+
+=== Classe Réservation
+- Cette classe contient les informations sur la réservation, comme le client et les places réservées.
+- Nous avons pensé à ces cardinalités entre Réservation et Place car une réservation inclut une ou plusieurs places, et chaque place est associée à une réservation.
 
 #pagebreak()
 = Analyse comportementale
