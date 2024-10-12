@@ -116,6 +116,9 @@ Place <|-- PlaceEtudiant
 Place <|-- PlaceChomeur
 Place <|- PlaceSenior
 PlaceMobiliteReduite -|> Place
+Place <|-- PlaceAnniversaire
+Place <|-- PlaceCumulPoints
+
 
 class Séance {
     - horaireDébut : Date
