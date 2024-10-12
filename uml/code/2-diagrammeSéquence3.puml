@@ -1,5 +1,4 @@
-@startuml RéservationSéance
-
+@startuml
 hide footbox
 skinparam sequenceMessageAlign center
 
@@ -47,6 +46,21 @@ end
 == Demande Tarifs ==
 
 ClientConnecté <- Système : demande les tarifs sur chaque place
+
+alt Le jour courant est la date d'anniversaire du client
+    ClientConnecté <- Système : donne sa place gratuite
+end
+
+alt Plus de 10 points d'accumulés
+    ClientConnecté <- Système : propose une place gratuite
+    alt L'utilisateur accepte
+        ClientConnecté <- Système : demande quelle place rendre gratuite
+        ClientConnecté -->> Système : choisit la place gratuite
+        ClientConnecté <- Système : donne la place gratuite
+        ClientConnecté <- Système : retire 10 points sur le compte
+    end
+end
+
 ClientConnecté -->> Système : renvoie les tarifs
 
 == Demande Paiement ==
@@ -64,5 +78,4 @@ else
 end
 
 Deactivate Système
-
 @enduml

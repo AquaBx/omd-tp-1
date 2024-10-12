@@ -202,8 +202,9 @@ Voici la description de chaque cas d'utilisation.
     4. Réservation validée si le paiement est accepté
     5. Reçoit une confirmation par mail avec un billet électronique
   ], [
-    1. Accumule suffisamment de points pour obtenir un billet gratuit, le système lui propose de l'utiliser avant de payer.
-    2. Décide d'annuler la réservation ou de changer de film.
+    1. Accumule suffisamment de points (10) pour obtenir un billet gratuit, le système lui propose de l'utiliser avant de payer.
+    2. C'est l'anniversaire du client, il bénéficie donc d'une place gratuite.
+    3. Décide d'annuler la réservation ou de changer de film.
   ], [
     1. Paiement refusé : Le client est informé de vérifier ses informations bancaires.
     2. Plus de places disponibles : La séance est complète, réservation impossible.
@@ -329,8 +330,9 @@ Le cas d'utilisation "Réserver un film" a été décrit ainsi dans la partie pr
   - 4. La réservation est validée si le paiement est accepté
   - 5. Reçoit une confirmation par mail avec un billet électronique
 - Scénarios alternatifs :
-  - *1. Accumule suffisamment de points pour obtenir un billet gratuit, le système lui propose de l'utiliser avant de payer. => on a oublié de modéliser ça !*
-  - 2. Décide d'annuler la réservation ou de changer de film. (Pour des soucis de simplifications, nous ne modéliserons pas ce dernier scénario)
+    1. Accumule suffisamment de points (10) pour obtenir un billet gratuit, le système lui propose de l'utiliser avant de payer.
+    2. C'est l'anniversaire du client, il bénéficie donc d'une place gratuite.
+    3. Décide d'annuler la réservation ou de changer de film (Pour des soucis de simplifications, nous ne modéliserons pas ce dernier scénario)
 - Scénarios d'exception :
   - 1. Paiement refusé : Le client est informé de vérifier ses informations bancaires.
   - 2. Plus de places disponibles : La séance (comprend le film et l'horaire) est complète, réservation impossible.
@@ -340,7 +342,7 @@ Un diagramme de séquence correspondant pourrait être illustré comme suit :
 
   
 #figure(
-  image("../uml/img/2-diagrammeSéquence3.png", width:7.21cm)
+  image("../uml/img/2-diagrammeSéquence3.png", width:6.5cm)
 )
 
 == Diagrammes de classe
@@ -390,7 +392,7 @@ Voici comment nous justifions notre choix de diagramme de classes.
 
 === Classe Place / Classes PlaceMobiliteReduite, PlaceChomeur, PlaceEtudiant, PlaceSenior
 - Cette classe représente une place réservée avec une éventuelle réduction.
-- Nous avons fait le choix d'une classe concrète Place, où d'autres types de places (mobilité réduite, chômeur, étudiant, sénior) sont reliés, pour permettre de soit choisir une place "normale", soit choisir une place spéciale offrant une réduction particulière grâce à l'attribution par héritage.  De plus, ce choix permet d'ajouter d'autres types de places facilement si l'occasion se présente.
+- Nous avons fait le choix d'une classe concrète Place, où d'autres types de places (mobilité réduite, chômeur, étudiant, sénior, place cumulPoint qui offre une place gratuite si le client a cumulé au moins 10 point, place anniversaire si le jour de réservation est aussi le jour d'anniversaire du client) sont reliés, pour permettre de soit choisir une place "normale", soit choisir une place spéciale offrant une réduction particulière grâce à l'attribution par héritage.  De plus, ce choix permet d'ajouter d'autres types de places facilement si l'occasion se présente.
 
 === Classe Réservation
 - Cette classe contient les informations sur la réservation, comme le client et les places réservées.
@@ -419,7 +421,7 @@ Choix des Places : Dans PlacesChoisies, l'utilisateur sélectionne ses places.
 - Si les places sont disponibles, le réservation passe à l'état vers TarifsChoisis.
 - Si les places ne sont pas disponibles, il revient à l'état HoraireChoisi.
 
-Choix des Tarifs : À partir de TarifsChoisis, l'utilisateur peut procéder à la transaction (état Transaction).
+Choix des Tarifs : À partir de TarifsChoisis, le client peut visualiser ses tarifs spéciaux (étudiant, sénior, chômeur si applicable) ou ses avantages (jour de son anniversaire, place gratuite si 10 points cumulés ou plus...). Ensuite, il peut procéder à la transaction (état Transaction).
 
 Transaction :
 - Si le paiement est accepté, un mail est envoyé, et l'utilisateur retourne à l'état de départ (enAttente).
@@ -431,7 +433,7 @@ Transaction :
 image("../uml/img/4-diagrammeEtat2.png", width: 9cm)
 )
 
-Le processus commence également dans l'état enAttente. Comme dans le premier diagramme, l'utilisateur peut choisir de quitter le système en l'éteignant.
+Le processus commence également dans l'état enAttente et l'utilisateur peut choisir de quitter le système.
 
 Entrée de l'Identifiant : Lorsque l'utilisateur entre son identifiant, il y a deux possibilités.
 - Si l'identifiant est correct, le système passe à identifiantCorrect.
@@ -441,7 +443,7 @@ Entrée du Mot de Passe : À partir de l'état identifiantCorrect, l'utilisateur
 - Si le mot de passe est correct, l'utilisateur à l'état utilisateurConnecté.
 - Si le mot de passe est incorrect, l'utilisateur retourne à identifiantCorrect.
 
-Déconnexion : Une fois connecté, l'utilisateur peut choisir de se déconnecter, ce qui le ramène à l'état enAttente.
+Déconnexion : Une fois connecté, l'utilisateur peut choisir de se déconnecter (retour à l'état enAttente).
 
 #pagebreak()
 = Conclusion
