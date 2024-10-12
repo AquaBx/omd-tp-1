@@ -10,7 +10,7 @@ enAttente <- FilmChoisi : choisirFilm [FilmNonTrouvé] /
 FilmChoisi --> HoraireChoisi : choisirHoraire [FilmTrouvé] /
 
 FilmChoisi <- HoraireChoisi : choisirHoraire [HoraireNonDisponibles] /
-HoraireChoisi --> PlacesChoisis : choisirHoraire [HoraireDisponibles] /
+HoraireChoisi --> PlacesChoisies : choisirHoraire [HoraireDisponibles] /
 
 HoraireChoisi <- PlacesChoisies : choisirPlaces [placesNonDisponibles] /
 PlacesChoisies --> TarifsChoisis : choisirPlaces [placesDisponibles] /
