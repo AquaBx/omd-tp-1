@@ -399,18 +399,60 @@ Voici comment nous justifions notre choix de diagramme de classes.
 #pagebreak()
 = Analyse comportementale
 
-- Etat de la réservation d'une séance (à rédiger)
+== Processus de réservation d'une séance
 
 #figure(
 image("../uml/img/4-diagrammeEtat1.png")
 )
 
-- Etat de la connexion/déconnexion d'un client (à rédiger)
+Le processus commence dans l'état initial enAttente, où l'utilisateur peut choisir d'éteindre le système en quittant le processus (état éteindre) ou de continuer avec la réservation.
+
+Choix du Film : Si l'utilisateur souhaite réserver un film, la réservation passe à l'état FilmChoisi.
+- Si le film est trouvé, l'utilisateur peut choisir un horaire, et l'état se déplace vers HoraireChoisi.
+- Si le film n'est pas trouvé, l'utilisateur retourne à l'état enAttente.
+
+Choix de l'Horaire : Dans l'état HoraireChoisi, l'utilisateur peut choisir un horaire.
+- Si l'horaire est disponible, la réservation passe à l'état PlacesChoisies.
+- Si l'horaire n'est pas disponible, l'utilisateur revient à l'état FilmChoisi.
+
+Choix des Places : Dans PlacesChoisies, l'utilisateur sélectionne ses places. 
+- Si les places sont disponibles, le réservation passe à l'état vers TarifsChoisis.
+- Si les places ne sont pas disponibles, il revient à l'état HoraireChoisi.
+
+Choix des Tarifs : À partir de TarifsChoisis, l'utilisateur peut procéder à la transaction (état Transaction).
+
+Transaction :
+- Si le paiement est accepté, un mail est envoyé, et l'utilisateur retourne à l'état de départ (enAttente).
+- Si le paiement est refusé, l'utilisateur reste dans l'état Transaction tant que le paiement n'est pas accepté.
+
+== Processus d'authentification d'un utilisateur
 
 #figure(
-image("../uml/img/4-diagrammeEtat2.png")
+image("../uml/img/4-diagrammeEtat2.png", width: 9cm)
 )
-= Conclusion
-max 10 lignes
 
+Le processus commence également dans l'état enAttente. Comme dans le premier diagramme, l'utilisateur peut choisir de quitter le système en l'éteignant.
+
+Entrée de l'Identifiant : Lorsque l'utilisateur entre son identifiant, il y a deux possibilités.
+- Si l'identifiant est correct, le système passe à identifiantCorrect.
+- Si l'identifiant est incorrect, l'utilisateur reste dans l'état enAttente tant que l'identifiant est incorrect.
+
+Entrée du Mot de Passe : À partir de l'état identifiantCorrect, l'utilisateur entre son mot de passe.
+- Si le mot de passe est correct, l'utilisateur à l'état utilisateurConnecté.
+- Si le mot de passe est incorrect, l'utilisateur retourne à identifiantCorrect.
+
+Déconnexion : Une fois connecté, l'utilisateur peut choisir de se déconnecter, ce qui le ramène à l'état enAttente.
+
+#pagebreak()
+= Conclusion
+
+En conclusion, grâce aux étapes précédentes, nous avons pu concevoir un système de réservation pour un cinéma en adoptant une approche orientée objet.
+
+Les analyses fonctionnelles, structurelles et comportementales nous ont permis de modéliser les interactions entre les différents acteurs et le système.
+
+D'abord, nous avons détaillé chaque cas d'utilisation afin de mieux comprendre les fonctionnalités du système et d'assurer leur cohérence.
+
+Ensuite, les diagrammes de séquence, de classes et comportementaux ont été essentiels pour visualiser les processus et les relations entre les entités.
+
+Toutes ces étapes ont été cruciales, non seulement pour répondre aux besoins des clients et des utilisateurs finaux (en garantissant une expérience utilisateur fluide avec toutes les fonctionnalités nécessaires), mais aussi pour optimiser le travail des employés et du personnel du cinéma, ainsi que celui des développeurs.
 
