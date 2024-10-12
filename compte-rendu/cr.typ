@@ -16,8 +16,8 @@
 #let proj = [#math.op("proj")]
 #let argmin = [#math.arg]+[#math.min]
 
-#let logo_esir = "esir.png"
-#let logo_univ = "univ.png"
+#let logo_esir = "img/esir.png"
+#let logo_univ = "img/univ.png"
 
 #let to-string(content) = {
   if content.has("text") {
